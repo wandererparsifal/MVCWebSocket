@@ -23,7 +23,8 @@ public class UserController {
     }
 
     @RequestMapping("index")
-    public String login(User user, HttpServletRequest request) {
+    public String index(HttpServletRequest request) {
+        User user = new User();
         user.setId(UUID.randomUUID().toString().replace("-", ""));
         request.getSession().setAttribute("user", user);
         return "index";
