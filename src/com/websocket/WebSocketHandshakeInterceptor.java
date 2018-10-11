@@ -13,7 +13,7 @@ import java.util.Map;
 public class WebSocketHandshakeInterceptor implements HandshakeInterceptor {
 
     /**
-     * 握手前
+     * 在握手之前执行该方法, 继续握手返回 true, 中断握手返回 false。通过 attributes 参数设置 WebSocketSession 的属性
      *
      * @param request
      * @param response
@@ -26,10 +26,11 @@ public class WebSocketHandshakeInterceptor implements HandshakeInterceptor {
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler webSocketHandler, Map<String, Object> attributes) throws Exception {
         if (request instanceof ServletServerHttpRequest) {
             ServletServerHttpRequest servletServerHttpRequest = (ServletServerHttpRequest) request;
-            HttpSession session = servletServerHttpRequest.getServletRequest().getSession(false);
-            if (session != null) {
-                //从session中获取当前用户
-                User user = (User) session.getAttribute("user");
+            HttpSession httpSession = servletServerHttpRequest.getServletRequest().getSession(false);
+            if (httpSession != null) {
+                // 从 HttpSession 中获取当前用户
+                User user = (User) httpSession.getAttribute("user");
+                // 放到 WebSocketSession 中
                 attributes.put("user", user);
             }
         }
@@ -37,7 +38,7 @@ public class WebSocketHandshakeInterceptor implements HandshakeInterceptor {
     }
 
     /**
-     * 握手后
+     * 在握手之后执行该方法
      *
      * @param serverHttpRequest
      * @param serverHttpResponse
