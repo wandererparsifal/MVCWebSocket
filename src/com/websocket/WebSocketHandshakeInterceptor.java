@@ -29,9 +29,9 @@ public class WebSocketHandshakeInterceptor implements HandshakeInterceptor {
             HttpSession httpSession = servletServerHttpRequest.getServletRequest().getSession(false);
             if (httpSession != null) {
                 // 从 HttpSession 中获取当前用户
-                User user = (User) httpSession.getAttribute("user");
+                User user = (User) httpSession.getAttribute(Constant.ATTR_HTTP_SESSION_USER);
                 // 放到 WebSocketSession 中
-                attributes.put("user", user);
+                attributes.put(Constant.ATTR_WEBSOCKET_SESSION_USER, user);
             }
         }
         return true;

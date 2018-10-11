@@ -31,7 +31,7 @@ public class MsgSocketHandler implements WebSocketHandler {
         //将用户信息添加到list中
         users.add(webSocketSession);
         System.out.println("=====================建立连接成功==========================");
-        User user = (User) webSocketSession.getAttributes().get("user");
+        User user = (User) webSocketSession.getAttributes().get(Constant.ATTR_WEBSOCKET_SESSION_USER);
         if (user != null) {
             System.out.println("当前连接用户======" + user.getId());
         }
@@ -47,7 +47,7 @@ public class MsgSocketHandler implements WebSocketHandler {
      */
     @Override
     public void handleMessage(WebSocketSession webSocketSession, WebSocketMessage<?> webSocketMessage) throws Exception {
-        User user = (User) webSocketSession.getAttributes().get("user");
+        User user = (User) webSocketSession.getAttributes().get(Constant.ATTR_WEBSOCKET_SESSION_USER);
         System.out.println("收到用户:" + user.getId() + "的消息");
         System.out.println(webSocketMessage.getPayload().toString());
         System.out.println("===========================================");
@@ -84,7 +84,7 @@ public class MsgSocketHandler implements WebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession webSocketSession, CloseStatus closeStatus) throws Exception {
         users.remove(webSocketSession);
-        User user = (User) webSocketSession.getAttributes().get("user");
+        User user = (User) webSocketSession.getAttributes().get(Constant.ATTR_WEBSOCKET_SESSION_USER);
         System.out.println(user.getId() + "断开连接");
     }
 

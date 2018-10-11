@@ -1,5 +1,6 @@
 package com.websocket.controller;
 
+import com.websocket.Constant;
 import com.websocket.MsgSocketHandler;
 import com.websocket.bean.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class UserController {
     public String index(HttpServletRequest request) {
         User user = new User();
         user.setId(UUID.randomUUID().toString().replace("-", ""));
-        request.getSession().setAttribute("user", user);
+        request.getSession().setAttribute(Constant.ATTR_HTTP_SESSION_USER, user);
         return "index";
     }
 
