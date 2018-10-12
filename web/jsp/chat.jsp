@@ -20,6 +20,7 @@
 <script src="../js/jquery-3.3.1.min.js"></script>
 <script src="../js/sockjs.min.js"></script>
 <script>
+  var stripeFlag = true;
   $(document).ready(function () {
     var ws;
     if ('WebSocket' in window) {
@@ -36,7 +37,29 @@
     //接收到消息
     ws.onmessage = function (evnt) {
       console.log(evnt.data);
-      $("#msg").append(evnt.data + "<br>");
+      var message = JSON.parse(evnt.data);
+      var nameColor;
+      var textColor;
+      var dateColor;
+      if (stripeFlag) {
+        nameColor = "lightskyblue";
+        textColor = "lightcyan";
+        dateColor = "paleturquoise";
+      } else {
+        nameColor = "thistle";
+        textColor = "aliceblue";
+        dateColor = "paleturquoise";
+      }
+      stripeFlag = !stripeFlag;
+      $("#msgs").append(
+        "<table style=\"width: 70%; margin-left: 2%\">\n" +
+        "    <tr>\n" +
+        "        <th style=\"width: 10%; background: " + nameColor + "\">" + message.fromWho + "</th>\n" +
+        "        <th style=\"width: 65%; background: " + textColor + "; text-align: left; padding: 0 10px 0 10px\">" + message.text + "</th>\n" +
+        "        <th style=\"width: 25%; background: " + dateColor + "\">" + message.date + "</th>\n" +
+        "    </tr>\n" +
+        "</table>"
+      );
     };
     ws.onerror = function (evnt) {
       console.log(evnt)
@@ -75,6 +98,7 @@
 <input type="text" id="text">
 <button id="btn1" value="发送给后台">发送给后台</button>
 <button id="btn2" value="发送给其他用户">发送给其他用户</button>
-<div id="msg"></div>
+<p></p>
+<div id="msgs"></div>
 </body>
 </html>
