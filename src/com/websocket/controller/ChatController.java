@@ -12,23 +12,22 @@ import org.springframework.web.socket.TextMessage;
 import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
-@RequestMapping("websocket")
 @Controller
-public class UserController {
+public class ChatController {
 
     private final MsgSocketHandler msgSocketHandler;
 
     @Autowired
-    public UserController(MsgSocketHandler handler) {
+    public ChatController(MsgSocketHandler handler) {
         this.msgSocketHandler = handler;
     }
 
-    @RequestMapping("index")
+    @RequestMapping("chat")
     public String index(HttpServletRequest request) {
         User user = new User();
         user.setId(UUID.randomUUID().toString().replace("-", ""));
         request.getSession().setAttribute(Constant.ATTR_HTTP_SESSION_USER, user);
-        return "index";
+        return "chat";
     }
 
     @ResponseBody

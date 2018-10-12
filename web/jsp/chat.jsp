@@ -41,7 +41,7 @@
       ws.send($("#text").val());
     });
     $("#btn2").bind("click", function () {
-      var url = "${pageContext.request.contextPath}/websocket/sendMsg";
+      var url = "${pageContext.request.contextPath}/sendMsg";
       var content = $("#text").val();
       var toUserName = "admin";
       $.ajax({
