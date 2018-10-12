@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.websocket.bean.User" %><%--
   Created by IntelliJ IDEA.
   User: yangming
   Date: 18-10-10
@@ -6,6 +6,13 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<%
+    User user = (User) pageContext.getSession().getAttribute("http-user");
+    String name = user.getName();
+%>
 <html>
 <head>
     <title>Title</title>
@@ -41,11 +48,11 @@
       ws.send($("#text").val());
     });
     $("#btn2").bind("click", function () {
-      var url = "${pageContext.request.contextPath}/sendMsg";
+      var url = "${ctx}/sendMsg";
       var content = $("#text").val();
       var toUserName = "admin";
       $.ajax({
-        data: "content=" + content,
+        data: "content=" + content + "&fromUserName=" + "<%=name%>",
         type: "get",
         dataType: 'text',
         async: false,
@@ -64,7 +71,7 @@
 
 </script>
 <body>
-当前登录用户：${pageContext.session.getAttribute("http-user").name}<br>
+当前登录用户：<%=name%><br>
 <input type="text" id="text">
 <button id="btn1" value="发送给后台">发送给后台</button>
 <button id="btn2" value="发送给其他用户">发送给其他用户</button>
