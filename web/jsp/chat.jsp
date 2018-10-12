@@ -64,7 +64,7 @@
 
 </script>
 <body>
-当前登录用户：${pageContext.session.getAttribute("http-user").id}<br>
+当前登录用户：${pageContext.session.getAttribute("http-user").name}<br>
 <input type="text" id="text">
 <button id="btn1" value="发送给后台">发送给后台</button>
 <button id="btn2" value="发送给其他用户">发送给其他用户</button>

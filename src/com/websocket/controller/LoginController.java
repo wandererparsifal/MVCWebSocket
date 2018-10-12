@@ -1,6 +1,7 @@
 package com.websocket.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.websocket.Constant;
 import com.websocket.bean.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -44,6 +45,7 @@ public class LoginController {
             for (User user : users) {
                 if (user.getName().equals(username)) {
                     if (user.getPwd().equals(password)) {
+                        request.getSession().setAttribute(Constant.ATTR_HTTP_SESSION_USER, user);
                         responseBean = new ResponseBean(true, false, "");
                     } else {
                         responseBean = new ResponseBean(false, true, "Wrong password");
