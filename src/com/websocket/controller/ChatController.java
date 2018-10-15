@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.socket.TextMessage;
 
 import javax.servlet.http.HttpServletRequest;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -32,10 +33,13 @@ public class ChatController {
     }
 
     @ResponseBody
-    @RequestMapping("sendMsg")
+    @RequestMapping(value = "sendMsg", produces = {"text/html;charset=UTF-8;", "application/json;"})
     public String sendMsg(String content, String fromUserName) {
-        System.out.println("Message fromUser " + fromUserName);
-        Message message = new Message(fromUserName, content, mDateFormat.format(new Date()));
+        String contentResetCode = new String(content.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+        System.out.println("Message contentResetCode " + contentResetCode);
+        String fromUserNameResetCode = new String(fromUserName.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+        System.out.println("Message fromUserNameResetCode " + fromUserNameResetCode);
+        Message message = new Message(fromUserNameResetCode, contentResetCode, mDateFormat.format(new Date()));
         ObjectMapper mapper = new ObjectMapper();
         String messageString = "";
         try {
@@ -43,6 +47,7 @@ public class ChatController {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+        System.out.println("messageString " + messageString);
         TextMessage textMessage = new TextMessage(messageString);
         msgSocketHandler.sendMessageToAllUser(textMessage);
         return "200";
