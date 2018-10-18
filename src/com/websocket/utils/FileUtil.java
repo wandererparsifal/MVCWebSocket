@@ -26,4 +26,16 @@ public class FileUtil {
         }
         return result;
     }
+
+    public static void saveText(String content, String path) {
+        File file = new File(path);
+        PrintWriter printWriter;
+        try {
+            printWriter = new PrintWriter(file);
+            printWriter.print(content);
+            printWriter.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 }
