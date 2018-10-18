@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import static com.websocket.bean.LoginResult.CODE_NO_SUCH_USER;
+import static com.websocket.bean.LoginResult.CODE_WRONG_PASSWORD;
+
 @Controller
 public class LoginController {
 
@@ -40,10 +43,10 @@ public class LoginController {
             responseBean = new ResponseBean(true, false, loginResult.getToken());
         } else {
             switch (loginResult.getErrorCode()) {
-                case 301:
+                case CODE_NO_SUCH_USER:
                     responseBean = new ResponseBean(false, true, "No such user");
                     break;
-                case 302:
+                case CODE_WRONG_PASSWORD:
                     responseBean = new ResponseBean(false, true, "Wrong password");
                     break;
                 default:

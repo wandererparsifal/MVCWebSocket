@@ -2,6 +2,10 @@ package com.websocket.bean;
 
 public class LoginResult {
 
+    public static final int CODE_NO_SUCH_USER = 301;
+
+    public static final int CODE_WRONG_PASSWORD = 302;
+
     private boolean result;
 
     private int errorCode;

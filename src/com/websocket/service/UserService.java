@@ -11,6 +11,9 @@ import javax.servlet.ServletContext;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static com.websocket.bean.LoginResult.CODE_NO_SUCH_USER;
+import static com.websocket.bean.LoginResult.CODE_WRONG_PASSWORD;
+
 @Service
 public class UserService {
 
@@ -39,14 +42,14 @@ public class UserService {
                     if (user.getPwd().equals(password)) {
                         loginResult = new LoginResult(true, 0, user, "");
                     } else {
-                        loginResult = new LoginResult(false, 302, null, null);
+                        loginResult = new LoginResult(false, CODE_WRONG_PASSWORD, null, null);
                     }
                     break;
                 }
             }
         }
         if (null == loginResult) {
-            loginResult = new LoginResult(false, 301, null, null);
+            loginResult = new LoginResult(false, CODE_NO_SUCH_USER, null, null);
         }
         return loginResult;
     }
