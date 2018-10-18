@@ -15,13 +15,13 @@ import java.util.ArrayList;
 @Controller
 public class LoginController {
 
-    @RequestMapping("/")
-    public String main(HttpServletRequest request) {
+    @RequestMapping("login")
+    public String login(HttpServletRequest request) {
         return "login";
     }
 
-    @RequestMapping("login")
-    public void login(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping("doLogin")
+    public void doLogin(HttpServletRequest request, HttpServletResponse response) {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String path = request.getSession().getServletContext().getRealPath("/storage/user.json");

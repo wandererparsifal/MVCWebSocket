@@ -24,7 +24,7 @@
           alert("请填写密码");
         }
         console.log("login " + username + " " + password);
-        var url = "${ctx}/login";
+        var url = "${ctx}/doLogin";
         console.log(url);
         $.ajax({
           url: url,
