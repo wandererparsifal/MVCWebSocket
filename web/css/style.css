@@ -1,0 +1,108 @@
+body {
+    margin: 0
+}
+
+.chat-header {
+    width: 100%;
+    height: 10vh;
+    background: deepskyblue
+}
+
+.chat-body {
+    display: flex
+}
+
+.chat-footer {
+    display: flex
+}
+
+.display-area-friend {
+    width: 20%;
+    height: 80vh;
+    background: lavenderblush;
+    display: inline-block
+}
+
+.chat-list {
+    width: 60%;
+    height: 80vh;
+    overflow: auto;
+    background: azure;
+    display: inline-block
+}
+
+.display-area-user {
+    width: 20%;
+    height: 80vh;
+    background: powderblue;
+    display: inline-block
+}
+
+.chat-item {
+    width: 100%;
+    float: left
+}
+
+.chat-item-friend {
+    max-width: 80%;
+    background: cyan;
+    float: left;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    padding: 10px
+}
+
+.chat-item-user {
+    max-width: 80%;
+    background: salmon;
+    float: right;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    padding: 10px
+}
+
+.profile-friend {
+    width: 80%;
+    height: 10vh;
+    background: palegreen;
+    margin-left: 10%
+}
+
+.profile-user {
+    width: 80%;
+    height: 10vh;
+    background: lightpink;
+    margin-left: 10%
+}
+
+.footer-left {
+    width: 20%;
+    height: 10vh;
+    background: aquamarine;
+    display: inline-block
+}
+
+.footer-right {
+    width: 20%;
+    height: 10vh;
+    background: oldlace;
+    display: inline-block
+}
+
+.area-input {
+    width: 60%;
+    height: 10vh;
+    background: lavender;
+    display: flex;
+    align-items: center
+}
+
+.input-chat {
+    width: 70%;
+    height: 60%;
+    margin-left: 1%;
+    margin-right: 1%;
+    border: 0;
+    outline: none;
+    cursor: pointer
+}

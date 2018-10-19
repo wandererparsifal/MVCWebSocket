@@ -17,10 +17,10 @@
 <head>
     <title>Title</title>
 </head>
+<link rel="stylesheet" href="../css/style.css">
 <script src="../js/jquery-3.3.1.min.js"></script>
 <script src="../js/sockjs.min.js"></script>
 <script>
-  var stripeFlag = true;
   $(document).ready(function () {
     var ws;
     if ('WebSocket' in window) {
@@ -38,28 +38,24 @@
     ws.onmessage = function (evnt) {
       console.log(evnt.data);
       var message = JSON.parse(evnt.data);
-      var nameColor;
-      var textColor;
-      var dateColor;
-      if (stripeFlag) {
-        nameColor = "lightskyblue";
-        textColor = "lightcyan";
-        dateColor = "paleturquoise";
+      var chatList = $("#chatList");
+      if ("<%=user.getName()%>" === message.fromWho) {
+        chatList.append(
+          "<div class=\"chat-item\">\n" +
+          "    <div class=\"chat-item-user\">\n" +
+          message.text +
+          "   </div>\n" +
+          "</div>"
+        );
       } else {
-        nameColor = "thistle";
-        textColor = "aliceblue";
-        dateColor = "paleturquoise";
+        chatList.append(
+          "<div class=\"chat-item\">\n" +
+          "    <div class=\"chat-item-friend\">\n" +
+          message.text +
+          "    </div>\n" +
+          "</div>"
+        );
       }
-      stripeFlag = !stripeFlag;
-      $("#msgs").append(
-        "<table style=\"width: 70%; margin-left: 2%\">\n" +
-        "    <tr>\n" +
-        "        <th style=\"width: 10%; background: " + nameColor + "\">" + message.fromWho + "</th>\n" +
-        "        <th style=\"width: 65%; background: " + textColor + "; text-align: left; padding: 0 10px 0 10px\">" + message.text + "</th>\n" +
-        "        <th style=\"width: 25%; background: " + dateColor + "\">" + message.date + "</th>\n" +
-        "    </tr>\n" +
-        "</table>"
-      );
     };
     ws.onerror = function (evnt) {
       console.log(evnt)
@@ -68,12 +64,15 @@
     };
 
     $("#btn1").click(function () {
-      ws.send($("#text").val());
+      var input = $("#text");
+      ws.send(input.val());
+      input.val("");
     });
     $("#btn2").bind("click", function () {
       var url = "${ctx}/sendMsg";
-      var content = $("#text").val();
-      var toUserName = "admin";
+      var input = $("#text");
+      var content = input.val();
+      input.val("");
       $.ajax({
         data: "content=" + content + "&fromUserName=" + "<%=name%>",
         type: "get",
@@ -94,11 +93,32 @@
 
 </script>
 <body>
-当前登录用户：<%=name%><br>
-<input type="text" id="text">
-<button id="btn1" value="发送给后台">发送给后台</button>
-<button id="btn2" value="发送给其他用户">发送给其他用户</button>
-<p></p>
-<div id="msgs"></div>
+<div class="chat-header">
+</div>
+<div class="chat-body">
+    <div id="displayAreaFriend" class="display-area-friend">
+        <div class="profile-friend">
+
+        </div>
+    </div>
+    <div id="chatList" class="chat-list">
+    </div>
+    <div id="displayAreaUser" class="display-area-user">
+        <div class="profile-user">
+
+        </div>
+    </div>
+</div>
+<div class="chat-footer">
+    <div class="footer-left">
+    </div>
+    <div class="area-input">
+        <input class="input-chat" type="text" id="text" autofocus="autofocus"/>
+        <button id="btn1" value="发送给后台">发送给后台</button>
+        <button id="btn2" value="发送给其他用户">发送给其他用户</button>
+    </div>
+    <div class="footer-right">
+    </div>
+</div>
 </body>
 </html>
