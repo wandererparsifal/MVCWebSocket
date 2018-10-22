@@ -113,8 +113,7 @@
     <div class="footer-left">
     </div>
     <div class="area-input">
-        <textarea class="input-chat" id="text" autofocus="autofocus">
-        </textarea>
+        <textarea class="input-chat" id="text" autofocus="autofocus"></textarea>
         <button id="btn1" value="发送给后台">发送给后台</button>
         <button id="btn2" value="发送给其他用户">发送给其他用户</button>
     </div>
