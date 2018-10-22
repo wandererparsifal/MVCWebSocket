@@ -72,7 +72,7 @@
       var url = "${ctx}/sendMsg";
       var input = $("#text");
       var content = input.val()
-        .replace(/\r\n/g, '<br/>').replace(/\n/g, '<br/>').replace(/\s/g, '&nbsp;').replace(/\t/g, '&#9;').trim();
+        .replace(/\r\n/g, '<br/>').replace(/\n/g, '<br/>').replace(/\s/g, '&nbsp;').replace(/\t/g, '&#9;');
       input.val("");
       $.ajax({
         url: url,
