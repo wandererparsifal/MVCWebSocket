@@ -1,6 +1,6 @@
 package com.websocket.bean;
 
-public class ResponseBean {
+public class ResponseInfo {
 
     private boolean success;
 
@@ -8,7 +8,7 @@ public class ResponseBean {
 
     private String msg;
 
-    public ResponseBean(boolean success, boolean failed, String msg) {
+    public ResponseInfo(boolean success, boolean failed, String msg) {
         this.success = success;
         this.failed = failed;
         this.msg = msg;

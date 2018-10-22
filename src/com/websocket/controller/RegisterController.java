@@ -1,8 +1,9 @@
 package com.websocket.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.websocket.bean.RegisterResult;
-import com.websocket.bean.ResponseBean;
+import com.websocket.bean.QueryResult;
+import com.websocket.bean.ResponseInfo;
+import com.websocket.bean.User;
 import com.websocket.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,8 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import static com.websocket.bean.RegisterResult.CODE_STORAGE_ERROR;
-import static com.websocket.bean.RegisterResult.CODE_USER_ALREADY_EXISTS;
+import static com.websocket.Code.*;
 
 @Controller
 public class RegisterController {
@@ -34,28 +34,28 @@ public class RegisterController {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
         PrintWriter writer;
-        ResponseBean responseBean;
-        RegisterResult registerResult = userService.register(request.getSession().getServletContext(),
+        ResponseInfo responseInfo;
+        QueryResult<User> registerResult = userService.register(request.getSession().getServletContext(),
                 username, password);
-        if (registerResult.isSuccess()) {
-            responseBean = new ResponseBean(true, false, "");
+        if (CODE_SUCCESS == registerResult.getCode()) {
+            responseInfo = new ResponseInfo(true, false, "");
         } else {
-            switch (registerResult.getErrorCode()) {
+            switch (registerResult.getCode()) {
                 case CODE_USER_ALREADY_EXISTS:
-                    responseBean = new ResponseBean(false, true, "user already exists");
+                    responseInfo = new ResponseInfo(false, true, "user already exists");
                     break;
                 case CODE_STORAGE_ERROR:
-                    responseBean = new ResponseBean(false, true, "storage error");
+                    responseInfo = new ResponseInfo(false, true, "storage error");
                     break;
                 default:
-                    responseBean = new ResponseBean(false, true, "unknown error");
+                    responseInfo = new ResponseInfo(false, true, "unknown error");
                     break;
             }
         }
         try {
             writer = response.getWriter();
             ObjectMapper mapper = new ObjectMapper();
-            String json = mapper.writeValueAsString(responseBean);
+            String json = mapper.writeValueAsString(responseInfo);
             writer.write(json);
             writer.flush();
             writer.close();
