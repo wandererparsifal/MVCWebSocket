@@ -36,7 +36,7 @@
     };
     //接收到消息
     ws.onmessage = function (evnt) {
-      console.log(evnt.data);
+      console.log("onmessage: " + evnt.data);
       var message = JSON.parse(evnt.data);
       var chatList = $("#chatList");
       if ("<%=user.getName()%>" === message.fromWho) {
@@ -58,7 +58,7 @@
       }
     };
     ws.onerror = function (evnt) {
-      console.log(evnt)
+      console.log("onerror: " + evnt)
     };
     ws.onclose = function (evnt) {
     };
@@ -71,21 +71,21 @@
     $("#btn2").bind("click", function () {
       var url = "${ctx}/sendMsg";
       var input = $("#text");
-      var content = input.val();
+      var content = input.val()
+        .replace(/\r\n/g, '<br/>').replace(/\n/g, '<br/>').replace(/\s/g, '&nbsp;').replace(/\t/g, '&#9;').trim();
       input.val("");
       $.ajax({
-        data: "content=" + content + "&fromUserName=" + "<%=name%>",
-        type: "get",
-        dataType: 'text',
-        async: false,
-        contentType: "application/x-www-form-urlencoded;charset=UTF-8",
-        encoding: "UTF-8",
         url: url,
+        type: "post",
+        data: {
+          content: content,
+          fromUserName: "<%=name%>"
+        },
         success: function (data) {
-          console.log(data.toString());
+          console.log("ajax success: " + JSON.stringify(data));
         },
         error: function (msg) {
-          alert(msg);
+          alert(JSON.stringify(msg));
         }
       });
     })
@@ -113,7 +113,8 @@
     <div class="footer-left">
     </div>
     <div class="area-input">
-        <input class="input-chat" type="text" id="text" autofocus="autofocus"/>
+        <textarea class="input-chat" id="text" autofocus="autofocus">
+        </textarea>
         <button id="btn1" value="发送给后台">发送给后台</button>
         <button id="btn2" value="发送给其他用户">发送给其他用户</button>
     </div>

@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.socket.TextMessage;
 
 import javax.servlet.http.HttpServletRequest;
-import java.nio.charset.StandardCharsets;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -33,13 +35,16 @@ public class ChatController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "sendMsg", produces = {"text/html;charset=UTF-8;", "application/json;"})
-    public String sendMsg(String content, String fromUserName) {
-        String contentResetCode = new String(content.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
-        System.out.println("Message contentResetCode " + contentResetCode);
-        String fromUserNameResetCode = new String(fromUserName.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
-        System.out.println("Message fromUserNameResetCode " + fromUserNameResetCode);
-        Message message = new Message(fromUserNameResetCode, contentResetCode, mDateFormat.format(new Date()));
+    @RequestMapping("sendMsg")
+    public void sendMsg(HttpServletRequest request, HttpServletResponse response) {
+        String content = request.getParameter("content");
+        String fromUserName = request.getParameter("fromUserName");
+        System.out.println("Message content " + content);
+//        String contentResetCode = new String(content.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+//        System.out.println("Message contentResetCode " + contentResetCode);
+//        String fromUserNameResetCode = new String(fromUserName.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+//        System.out.println("Message fromUserNameResetCode " + fromUserNameResetCode);
+        Message message = new Message(fromUserName, content, mDateFormat.format(new Date()));
         ObjectMapper mapper = new ObjectMapper();
         String messageString = "";
         try {
@@ -50,6 +55,16 @@ public class ChatController {
         System.out.println("messageString " + messageString);
         TextMessage textMessage = new TextMessage(messageString);
         msgSocketHandler.sendMessageToAllUser(textMessage);
-        return "200";
+
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
+        try {
+            PrintWriter writer = response.getWriter();
+            writer.write("{\"result\": 200}");
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
