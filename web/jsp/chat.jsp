@@ -82,7 +82,7 @@
           fromUserName: "<%=name%>"
         },
         success: function (data) {
-          console.log("ajax success: " + JSON.stringify(data));
+          console.log("ajax success: " + data);
         },
         error: function (msg) {
           alert(JSON.stringify(msg));

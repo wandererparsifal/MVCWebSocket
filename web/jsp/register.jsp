@@ -39,10 +39,10 @@
             password: password
           },
           success: function (data) {
-            if (data.success) {
+            if (0 === data.code) {
               window.location.href = "${ctx}/login";
-            } else if (data.failed) {
-              alert(data.msg);
+            } else {
+              alert(data.code);
             }
           },
           error: function (data) {

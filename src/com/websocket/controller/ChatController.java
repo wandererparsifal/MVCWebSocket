@@ -11,9 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.socket.TextMessage;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -36,7 +33,7 @@ public class ChatController {
 
     @ResponseBody
     @RequestMapping("sendMsg")
-    public void sendMsg(HttpServletRequest request, HttpServletResponse response) {
+    public int sendMsg(HttpServletRequest request) {
         String content = request.getParameter("content");
         String fromUserName = request.getParameter("fromUserName");
         System.out.println("Message content " + content);
@@ -55,16 +52,6 @@ public class ChatController {
         System.out.println("messageString " + messageString);
         TextMessage textMessage = new TextMessage(messageString);
         msgSocketHandler.sendMessageToAllUser(textMessage);
-
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json");
-        try {
-            PrintWriter writer = response.getWriter();
-            writer.write("{\"result\": 200}");
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return 0;
     }
 }
